@@ -1,0 +1,6 @@
+.vscode
+sol.cpp
+sol.exe
+
+#Only cpp cpp files and math(formula) related things
+#Ignore all other things like .exe files, folders etc
