@@ -10,12 +10,12 @@ using pll = pair<ll, int>;      // priority_queue (dist, node)
 #define se      second
 
 const ll INF = 1e18;             
-vector<vector<pii>> g;           
+vector<vector<pii>> adj;           
 vector<ll> dist;
 
 // --- Dijkstra Algorithm ---
 void dijkstra(int s){
-    int n = g.size() - 1;   // number of nodes (assuming 1-based indexing)
+    int n = adj.size() - 1;   // number of nodes (assuming 1-based indexing)
     dist.assign(n+1, INF);
     
     priority_queue<pll, vector<pll>, greater<pll>> pq;
@@ -28,7 +28,7 @@ void dijkstra(int s){
 
         if(d > dist[u]) continue;
 
-        for(auto [v, w]: g[u]){
+        for(auto [v, w]: adj[u]){
             if(dist[v] > dist[u] + w){
                 dist[v] = dist[u] + w;
                 pq.push({dist[v], v});
@@ -41,7 +41,7 @@ void solve(){
     int n, m; // n = number of nodes, m = number of edges
     cin >> n >> m;
 
-    g.assign(n + 1, {}); 
+    adj.assign(n + 1, {}); 
     /*
         Declaring graph in there.
         Example:
