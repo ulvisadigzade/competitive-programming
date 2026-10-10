@@ -31,7 +31,7 @@ void build_fact(int n, long long mod) {
 }
 
 long long C(int n, int k, long long mod) {
-    if (k < 0 || k > n) return 0;
+    if (n < 0 || k < 0 || k > n) return 0;
     return fact[n] * invfact[k] % mod * invfact[n-k] % mod;
 }
 

@@ -11,7 +11,7 @@ using ld  = long double;
 #define mp      make_pair
 #define fi      first
 #define se      second
-#define startt ios::sync_with_stdio(0);cin.tie(0); 
+#define startt ios::sync_with_stdio(0); cin.tie(0); cout << fixed << setprecision(10); 
 #define pii pair<int,int>
 #define pll pair<ll,ll>
 

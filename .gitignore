@@ -2,5 +2,6 @@
 sol.cpp
 sol.exe
 tempCodeRunnerFile.cpp
+tempCodeRunnerFile.exe
 #Only cpp cpp files and math(formula) related things
 #Ignore all other things like .exe files, folders etc

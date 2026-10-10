@@ -4,46 +4,55 @@ using namespace std;
 
 #define ll long long 
 
+struct SegTree {
+    int n;
+    vector<ll> tree;
 
-vector<int>v;
+    SegTree(int n) : n(n), tree(4 * (n + 1), 0) {}
 
-struct Seg{
-    vector<ll>seg;
-
-    Seg(int sz){
-        seg.resize(4*(sz+10));
+    SegTree(const vector<ll> &a) : n(a.size()), tree(4 * (a.size() + 1), 0) {
+        build(a, 1, 0, n - 1);
     }
 
-    // left inde, right index, seg index
-    void build(int l,int r,int in){
-        if(l==r){
-            seg[in]=v[l];
+    void build(const vector<ll> &a, int v, int tl, int tr) {
+        if (tl == tr) {
+            tree[v] = a[tl];
             return;
         }
-        int m = (l+r)/2;
-        build(l,m,2*in);
-        build(m+1,r,2*in+1);
-        seg[in]=seg[2*in]+seg[2*in+1];
+        int tm = (tl + tr) / 2;
+        build(a, 2 * v, tl, tm);
+        build(a, 2 * v + 1, tm + 1, tr);
+        tree[v] = tree[2 * v] + tree[2 * v + 1];
     }
 
-    // current left, current right,left index,right index, segtree index;
-    ll query(int ql,int qr,int l,int r,int in){
-        if(ql>r || qr<l)return 0;
-        if(ql>=l && qr<=r)return seg[in];
-        int m = (ql+qr)/2;
-        return query(ql,m,l,r,2*in)+query(m+1,qr,l,r,2*in+1);
+    // Point update: set a[pos] = val
+    void update(int v, int tl, int tr, int pos, ll val) {
+        if (tl == tr) {
+            tree[v] = val;
+            return;
+        }
+        int tm = (tl + tr) / 2;
+        if (pos <= tm)
+            update(2 * v, tl, tm, pos, val);
+        else
+            update(2 * v + 1, tm + 1, tr, pos, val);
+        tree[v] = tree[2 * v] + tree[2 * v + 1];
     }
 
-    //left index,right index,segtree index,chnage index,new element
-    void update(int l,int r,int in,int ind,int nw){
-        if(ind<l || ind>r)return;
-        if(l==r){seg[in]=nw;return;}
-        int m = (l+r)/2;
-        if(ind<=m)update(l,m,2*in,ind,nw);
-        else update(m+1,r,2*in+1,ind,nw);
-        seg[in] = seg[2*in] + seg[2*in+1];
+    // Range query on [l, r]
+    ll query(int v, int tl, int tr, int l, int r) {
+        if (l > r || tl > r || tr < l) return 0;
+        if (l <= tl && tr <= r) return tree[v];
+        int tm = (tl + tr) / 2;
+        return query(2 * v, tl, tm, l, r) + query(2 * v + 1, tm + 1, tr, l, r);
     }
+
+    // Convenient wrappers (0-indexed [0, n-1]):
+    void update(int pos, ll val) { update(1, 0, n - 1, pos, val); }
+    ll query(int l, int r) { return query(1, 0, n - 1, l, r); }
 };
 
-int main(){
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 }

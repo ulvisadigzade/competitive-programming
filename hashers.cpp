@@ -20,7 +20,7 @@ struct SplitMix64 {
         return (size_t)splitmix64(x + FIXED_RANDOM);
     }
 
-    size_t operator()(ll x) const noexcept {
+    size_t operator()(long long x) const noexcept {
         return (*this)((uint64_t)x);
     }
 };

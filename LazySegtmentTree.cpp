@@ -7,8 +7,14 @@ struct SegTree {
     vector<long long> tree, lazy;
 
     SegTree(int n) : n(n) {
-        tree.assign(4*n, 0);
-        lazy.assign(4*n, 0);
+        tree.assign(4 * (n + 1), 0);
+        lazy.assign(4 * (n + 1), 0);
+    }
+
+    SegTree(const vector<long long> &a) : n(a.size()) {
+        tree.assign(4 * (n + 1), 0);
+        lazy.assign(4 * (n + 1), 0);
+        build(a, 1, 0, n - 1);
     }
 
     void build(const vector<long long> &a, int v, int tl, int tr) {
@@ -59,11 +65,14 @@ struct SegTree {
         if (r > tm)  res += query(v*2+1, tm+1, tr, max(l, tm+1), r);
         return res;
     }
+
+    // Convenient wrappers (0-indexed [0, n-1]):
+    void update(int l, int r, long long add) { update(1, 0, n - 1, l, r, add); }
+    long long query(int l, int r) { return query(1, 0, n - 1, l, r); }
 };
 
-// vector<long long> a(n);
-// SegTree st(n);
-// st.build(a, 1, 0, n-1);
-// st.update(1, 0, n-1, l, r, val);
-// long long ans = st.query(1, 0, n-1, l, r);
+// Usage:
+// SegTree st(a);                  // builds from vector<long long> a
+// st.update(l, r, val);           // add val to range [l, r]
+// long long ans = st.query(l, r); // range sum [l, r]
 
